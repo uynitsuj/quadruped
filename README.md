@@ -1,5 +1,5 @@
 ## Justin Yu's Custom Quadruped
-#For this custom quadrupedal robot project, my high-level design goals and objectives are:
+For this custom quadrupedal robot project, my high-level design goals and objectives are:
 
 * Scalability (?) Quadrupedal Platform
 * **Platform** (put down twice out of importance)
