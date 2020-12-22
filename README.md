@@ -1,5 +1,5 @@
 ## Justin Yu's Custom Quadruped
-Inspired by Boston Dynamic's Spot Mini, MIT's Mini Cheetah, and the exceptional work by my good friend Adham Elarabawy on OpenQuadruped <br> https://www.adham-e.dev/<br> https://github.com/adham-elarabawy/open-quadruped
+Inspired by Boston Dynamics' Spot Mini, MIT's Mini Cheetah, and the exceptional work by my good friend Adham Elarabawy on OpenQuadruped <br> https://www.adham-e.dev/<br> https://github.com/adham-elarabawy/open-quadruped
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/Quadruped2.gif?raw=true" height="100%" width="100%">
 
 **Mechanical**: I'll be starting out with a small scale 3D Printed frame + some fairly powerful hobby servos with a BOM cost of <$600. 
