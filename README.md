@@ -1,6 +1,6 @@
 ## Justin Yu's Custom Quadruped
 Inspired by the exceptional work by my good friend Adham Elarabawy on OpenQuadruped https://www.adham-e.dev/ https://github.com/adham-elarabawy/open-quadruped
-
+<img src="https://github.com/uynitsuj/quadruped/blob/main/img/Quadruped2.gif?raw=true" height="100%" width="100%">
 For this custom quadrupedal robot project, my high-level design goals and objectives are:
 
 * Scalability (?) Quadrupedal Platform
