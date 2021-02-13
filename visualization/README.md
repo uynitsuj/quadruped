@@ -1,4 +1,5 @@
 ##Visualization Usage
+
 To try the visualization tool out, you'll need to run the animate.py python file with the proper libraries installed
 
 Enter 1 for PS4 Input Control or 2 for Keyboard Control
