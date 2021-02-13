@@ -30,19 +30,10 @@ class Quadruped:
         self.height = height
 
         #list of tuples of body frame coordinates in R3 cartesian
-        #Order: 0-Back Left, 1-Front Left, 2-Front Right, 3-Back Right
-        self.body = [(origin[0] - self.body_dim[0] / 2,
-                      origin[1] - self.body_dim[1] / 2, origin[2]),
-                     (origin[0] + self.body_dim[0] / 2,
-                      origin[1] - self.body_dim[1] / 2, origin[2]),
-                     (origin[0] + self.body_dim[0] / 2,
-                      origin[1] + self.body_dim[1] / 2, origin[2]),
-                     (origin[0] - self.body_dim[0] / 2,
-                      origin[1] + self.body_dim[1] / 2, origin[2]),
-                     (origin[0] - self.body_dim[0] / 2,
-                      origin[1] - self.body_dim[1] / 2, origin[2])]
+        #Order: 0-Front Right, 1-Back Right, 2-Back Left, 3-Front Left
+        self.body = [
 
-        self.body_reset = [(origin[0] - self.body_dim[0] / 2,
+                     (origin[0] - self.body_dim[0] / 2,
                       origin[1] - self.body_dim[1] / 2, origin[2]),
                      (origin[0] + self.body_dim[0] / 2,
                       origin[1] - self.body_dim[1] / 2, origin[2]),
@@ -51,7 +42,24 @@ class Quadruped:
                      (origin[0] - self.body_dim[0] / 2,
                       origin[1] + self.body_dim[1] / 2, origin[2]),
                      (origin[0] - self.body_dim[0] / 2,
-                      origin[1] - self.body_dim[1] / 2, origin[2])]
+                      origin[1] - self.body_dim[1] / 2, origin[2])
+
+                      ]
+
+        self.body_reset = [
+
+                     (origin[0] - self.body_dim[0] / 2,
+                      origin[1] - self.body_dim[1] / 2, origin[2]),
+                     (origin[0] + self.body_dim[0] / 2,
+                      origin[1] - self.body_dim[1] / 2, origin[2]),
+                     (origin[0] + self.body_dim[0] / 2,
+                      origin[1] + self.body_dim[1] / 2, origin[2]),
+                     (origin[0] - self.body_dim[0] / 2,
+                      origin[1] + self.body_dim[1] / 2, origin[2]),
+                     (origin[0] - self.body_dim[0] / 2,
+                      origin[1] - self.body_dim[1] / 2, origin[2])
+
+                      ]
 
     def IK(self, leg, xyz_wf):
         try:
@@ -61,7 +69,6 @@ class Quadruped:
             else:
                 y = self.body[leg][1]-xyz_wf[1]
             z = xyz_wf[2]-self.body[leg][2]
-            #print(x," ",y," ",z)
             off0 = self.offsets[0]
             off1 = self.offsets[1]
             s = self.limb_lengths[0]
@@ -77,19 +84,15 @@ class Quadruped:
             r0=h1*sin(a4)/sin(a3)
             h3 = sqrt(r0**2+x**2)
             phi = arcsin(x / h3)
-            #print(x, " ", y, " ", z)
             t_h = a0-a5
             t_w = arccos((s**2+w**2-h3**2)/(2*s*w))
             t_s = arccos((s**2+h3**2-w**2)/(2*s*h3)) - phi
             if leg < 2:
                 return t_h, t_s, t_w
-                #print("Theta_Hip: ", -t_h*180/pi, "Theta_Shoulder: ", t_s*180/pi, "Theta_Wrist: ", t_w*180/pi)
             else:
                 return -t_h, t_s, t_w
-                #print("Theta_Hip: ", -t_h*180/pi, "Theta_Shoulder: ", t_s*180/pi, "Theta_Wrist: ", t_w*180/pi)
         except:
             print("Out of bounds.")
-        #print(joint_angles)
         return 0,0,0
 
 
@@ -97,9 +100,7 @@ class Quadruped:
         x_data = [vector[0] for vector in self.body]
         y_data = [vector[1] for vector in self.body]
         z_data = [vector[2] for vector in self.body]
-        #self.ax.plot(x_data, y_data, z_data, color=color)
         pts = vstack([x_data, y_data, z_data]).transpose()
-        #print(pts)
         self.ax.w.addItem(gl.GLLinePlotItem(pos=pts, color=pg.glColor((4, 50)), width=1, antialias=True))
 
     @staticmethod
@@ -135,20 +136,23 @@ class Quadruped:
                 pol2 = 0
             xyz = (f_c[i][0],f_c[i][1],f_c[i][2])
             t_h, t_s, t_w = Quadruped.IK(self, i,xyz)
-            #print(t_s)
             M1F = dot(Quadruped.translate(self.body[i][0],self.body[i][1],self.body[i][2]),
             Quadruped.rotate(self.yaw, self.pitch, -t_h))
             p1 = dot(M1F, Quadruped.translate(0,0,-self.offsets[0]))
             p2 = dot(p1, Quadruped.translate(0,pol1*self.offsets[1],0))
-            M2F = dot(p2, dot(Quadruped.rotate(0,t_s-pi*pol2,0),
+            M2F = dot(p2, dot(Quadruped.rotate(0,t_s+pi*pol2,0),
             Quadruped.translate(0,0,pol1*self.limb_lengths[0])))
-            leg_pts = array([[M1F[0][3],M1F[1][3],M1F[2][3]],
+            leg_pts = array([
+
+            [M1F[0][3],M1F[1][3],M1F[2][3]],
             [p1[0][3], p1[1][3], p1[2][3]],
             [p2[0][3], p2[1][3], p2[2][3]],
             [M2F[0][3],M2F[1][3],M2F[2][3]],
-            [f_c[i][0],f_c[i][1],f_c[i][2]]])
+            [f_c[i][0],f_c[i][1],f_c[i][2]]
+
+            ])
             self.ax.w.addItem(gl.GLLinePlotItem(pos=leg_pts, color=pg.glColor((4, 100)), width=3, antialias=True))
-            self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=5))
+            self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=7))
 
 
     def shift_body_rotation(self, yaw, pitch, roll):
@@ -160,9 +164,7 @@ class Quadruped:
             dot(Quadruped.rotate(self.yaw, self.pitch, self.roll),
             Quadruped.translate(self.body_reset[i][0],self.body_reset[i][1],0)))
             self.body[i] = (P[0][3], P[1][3], P[2][3])
-            #self.body_reset[i] = (self.body_reset[i][0],self.body_reset[i][1], P[2][3])
-            #print((P[0][3], P[1][3], P[2][3]))
-            #print(self.body_reset[i])
+
     def shift_body_translation(self, dx, dy, dz):
         self.del_x = dx
         self.del_y = dy
