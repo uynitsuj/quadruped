@@ -1,4 +1,4 @@
-##Visualization Usage
+## Visualization Usage
 
 To try the visualization tool out, you'll need to run the animate.py python file with the proper libraries installed
 
