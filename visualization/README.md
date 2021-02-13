@@ -8,3 +8,6 @@ L Joystick X: yaw\nL Joystick Y: pitch\nR Joystick X: translate body left/right\
 
 Keyboard Controls:
 use x, y, z, a, p, r to select (x axis, y axis, z axis, yaw, pitch, roll), and then use 'w' or 's' buttons to increment or decrement the selected position. If you click '1' on your keyboard, it will reset the position. If you click 'esc' on your keyboard, you will close the visualization
+
+
+<img src="https://github.com/uynitsuj/quadruped/blob/main/img/IK.gif?raw=true" height="100%" width="100%">
