@@ -26,14 +26,14 @@ class Visualizer(object):
 
     def setup(self):
         gsz=400
-        gsp=50
-        gx = gl.GLGridItem(color=(255, 255, 255, 10))
+        gsp=10
+        gx = gl.GLGridItem(color=(255, 255, 255, 60))
         gx.setSize(gsz,gsz,gsz)
         gx.setSpacing(gsp,gsp,gsp)
         gx.rotate(90, 0, 1, 0)
         gx.translate(-gsz/2, 0, gsz/2)
         self.w.addItem(gx)
-        gy = gl.GLGridItem(color=(255, 255, 255, 10))
+        gy = gl.GLGridItem(color=(255, 255, 255, 60))
         gy.setSize(gsz,gsz,gsz)
         gy.setSpacing(gsp,gsp,gsp)
         gy.rotate(90, 1, 0, 0)
