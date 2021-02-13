@@ -63,7 +63,7 @@ class Quadruped:
 
     def IK(self, leg, xyz_wf):
         try:
-            x = xyz_wf[0]-self.body[leg][0]
+            x = -self.body[leg][0]+xyz_wf[0]
             if leg < 2:
                 y = xyz_wf[1]-self.body[leg][1]
             else:
@@ -93,6 +93,7 @@ class Quadruped:
                 return -t_h, t_s, t_w
         except:
             print("Out of bounds.")
+            return 0,0,0
         return 0,0,0
 
 
@@ -140,7 +141,7 @@ class Quadruped:
             Quadruped.rotate(self.yaw, self.pitch, -t_h))
             p1 = dot(M1F, Quadruped.translate(0,0,-self.offsets[0]))
             p2 = dot(p1, Quadruped.translate(0,pol1*self.offsets[1],0))
-            M2F = dot(p2, dot(Quadruped.rotate(0,t_s+pi*pol2,0),
+            M2F = dot(p2, dot(Quadruped.rotate(0,-self.pitch+t_s-pi*pol2,0),
             Quadruped.translate(0,0,pol1*self.limb_lengths[0])))
             leg_pts = array([
 
