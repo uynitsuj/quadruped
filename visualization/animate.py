@@ -59,7 +59,7 @@ class Visualizer(object):
         self.robot.shift_body_translation(x, y, z)
         #self.robot.reset(r)
         self.robot.draw_body()
-        pts = np.array([[-115, -85,0], [115, -85,0],[115, 85,0],[-115, 85,0]])
+        pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
         self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
         self.robot.draw_legs(pts)
 

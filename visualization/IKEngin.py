@@ -9,7 +9,7 @@ import pyqtgraph as pg
 
 class Quadruped:
 
-    def __init__(self, ax=0, origin=(0, 0, 100), body_dim=(230, 110), limb_lengths=(107, 130), offsets=(10, 30), height=170):
+    def __init__(self, ax=0, origin=(0, 0, 100), body_dim=(255, 110), limb_lengths=(105, 105), offsets=(22, 55), height=170):
         '''
         body_dim: (length, width,thickness) in mm
         limb_lengths: (upper_arm, bottom_arm) in mm
