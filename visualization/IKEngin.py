@@ -148,6 +148,7 @@ class Quadruped:
             [M2F[0][3],M2F[1][3],M2F[2][3]],
             [f_c[i][0],f_c[i][1],f_c[i][2]]])
             self.ax.w.addItem(gl.GLLinePlotItem(pos=leg_pts, color=pg.glColor((4, 100)), width=3, antialias=True))
+            self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=5))
 
 
     def shift_body_rotation(self, yaw, pitch, roll):
