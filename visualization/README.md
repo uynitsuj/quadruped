@@ -4,14 +4,14 @@ To try the visualization tool out, you'll need to run the animate.py python file
 Enter 1 for PS4 Input Control or 2 for Keyboard Control
 
 PS4 Controls:
-L Joystick X: yaw
-L Joystick Y: pitch
-R Joystick X: translate body left/right
-R Joystick Y: translate body forward/backward
-L Bumper: roll body
-R Bumper: roll body
-DPad up: translate body up
-DPad down: translate body down
+L Joystick X: yaw,
+L Joystick Y: pitch,
+R Joystick X: translate body left/right,
+R Joystick Y: translate body forward/backward,
+L Bumper: roll body,
+R Bumper: roll body,
+DPad up: translate body up,
+DPad down: translate body down,
 Circle: close visualization
 
 Keyboard Controls:
