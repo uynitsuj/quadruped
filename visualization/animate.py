@@ -6,6 +6,7 @@ import pyqtgraph as pg
 import numpy as np
 import sys
 from ps4thread import PS4Thread
+from ps4imuthread import PS4imuThread
 from pynput import keyboard
 from IKEngin import Quadruped
 
@@ -121,10 +122,10 @@ def on_press(key):
 if __name__ == '__main__':
     t = 1
     while t:
-        num_in = input("Enter 1 for PS4 Input Control or 2 for Keyboard Control: \n")
+        num_in = input("Enter 1 for PS4 Joystick Control, or 2 for Keyboard Control: \n")
         if num_in == '1':
             cthread = PS4Thread(my_callback)
-            t = 0
+            t = 
         elif num_in == '2':
             cthread = keyboard.Listener(on_press=on_press)
             print("Controls: use x, y, z, a, p, r to select",
