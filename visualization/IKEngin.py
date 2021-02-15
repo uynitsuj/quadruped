@@ -4,7 +4,7 @@ import pyqtgraph.opengl as gl
 import pyqtgraph as pg
 # class defines robot joint vertices and stores & plots vertex definition
 # in cartesian space relative to the origin of the base frame
-# those vertices get plotted within MPL's 3d visualization plotter using their plot function.
+# those vertices get plotted within pyqtgraph's 3d openGL visualization plotter.
 
 
 class Quadruped:
