@@ -12,10 +12,19 @@ class PS4Thread(threading.Thread):
         self.start()
 
     def run(self):
-        print("Controls: \nL Joystick X: yaw\nL Joystick Y: pitch\nR Joystick X: translate body left/right\nR Joystick Y: translate body forward/backward\nL Bumper: roll body\nR Bumper: roll body\nDPad up: translate body up\nDPad down: translate body down\nCircle: close visualization")
         r = x = y = z = yaw = pitch = roll = cl = 0
-        file = open("/dev/input/js0", "rb")
+        try:
+            file = open("/dev/input/js0", "rb")
+        except:
+            print("No PS4 Controller found")
+            r = x = y = z = yaw = pitch = roll = 0
+            cl = 1
+            self.input_cbk((yaw, pitch, roll, x, y, z, r, cl))
+            exit(1)
+        print("Controls: \nL Joystick X: yaw\nL Joystick Y: pitch\nR Joystick X: translate body left/right\nR Joystick Y: translate body forward/backward\nL Bumper: roll body\nR Bumper: roll body\nDPad up: translate body up\nDPad down: translate body down\nCircle: close visualization")
+        print("Use Mouse+Scroll Wheel+Arrow Keys to move camera view")
         while True:
+            #Joystick event handler
             event = file.read(struct.calcsize("3Bh2b"))
             (*tv_sec, value, button_type, button_id) = struct.unpack("3Bh2b", event)
             if (button_id == 1 and button_type == 2):

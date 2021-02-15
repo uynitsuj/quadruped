@@ -6,7 +6,6 @@ import pyqtgraph as pg
 import numpy as np
 import sys
 from ps4thread import PS4Thread
-from ps4imuthread import PS4imuThread
 from pynput import keyboard
 from IKEngin import Quadruped
 
@@ -19,9 +18,9 @@ class Visualizer(object):
         self.traces = dict()
         self.app = QtGui.QApplication(sys.argv)
         self.w = gl.GLViewWidget()
-        self.w.opts['distance'] = 40
+        self.w.opts['distance'] = 700
         self.w.setWindowTitle('pyqtgraph Quadruped')
-        self.w.setGeometry(0, 110, 1920, 1080)
+        self.w.setGeometry(0, 110, 1400, 1000)
         self.w.show()
         self.setup()
 
@@ -71,6 +70,7 @@ class Visualizer(object):
         timer.start(1)
         self.start()
 
+#thread callback function
 def my_callback(inp):
     global x, y, z, yaw, pitch, roll, r, cl
     yaw, pitch, roll, x, y, z, r, cl = inp
@@ -78,6 +78,8 @@ def my_callback(inp):
 switch = 'x'
 buffer = 0
 inc = 5
+
+#keyboard keypress event handler
 def on_press(key):
     global switch, buffer, inc, x, y, z, yaw, pitch, roll, cl
     if key == keyboard.Key.esc:
@@ -124,9 +126,11 @@ if __name__ == '__main__':
     while t:
         num_in = input("Enter 1 for PS4 Joystick Control, or 2 for Keyboard Control: \n")
         if num_in == '1':
+            #start joystick listener thread
             cthread = PS4Thread(my_callback)
             t = 0
         elif num_in == '2':
+            #start keyboard listener thread
             cthread = keyboard.Listener(on_press=on_press)
             print("Controls: use x, y, z, a, p, r to select",
             " \n(x axis, y axis, z axis, yaw, pitch, roll),\n",
@@ -134,6 +138,7 @@ if __name__ == '__main__':
             " or decrement the selected position. \nIf you click '1' on ",
             "your keyboard, it will reset the position.\nIf you click",
             " 'esc' on your keyboard, you will close the visualization")
+            print("Use Mouse+Scroll Wheel+Arrow Keys to move camera view")
             cthread.start()
             t = 0
         else:
