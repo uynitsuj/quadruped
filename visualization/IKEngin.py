@@ -61,6 +61,7 @@ class Quadruped:
 
                       ]
 
+
     def IK(self, leg, xyz_wf):
         try:
             x = -self.body[leg][0]+xyz_wf[0]
@@ -102,6 +103,7 @@ class Quadruped:
         y_data = [vector[1] for vector in self.body]
         z_data = [vector[2] for vector in self.body]
         pts = vstack([x_data, y_data, z_data]).transpose()
+
         self.ax.w.addItem(gl.GLLinePlotItem(pos=pts, color=pg.glColor((4, 50)), width=1, antialias=True))
 
     @staticmethod
