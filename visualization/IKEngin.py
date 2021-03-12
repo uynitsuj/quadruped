@@ -24,9 +24,16 @@ class Quadruped:
         self.yaw = 0
         self.pitch = 0
         self.roll = 0
+        self.body_yaw = 0
+        self.body_pitch = 0
+        self.body_roll = 0
         self.del_x = 0
         self.del_y = 0
         self.del_z = 0
+        self.body_x = 0
+        self.body_y = 0
+        self.body_z = 0
+        self.flag = 0
         self.height = height
 
         #list of tuples of body frame coordinates in R3 cartesian
@@ -86,13 +93,17 @@ class Quadruped:
             h3 = sqrt(r0**2+x**2)
             phi = arcsin(x / h3)
             t_h = a0-a5
-            t_w = arccos((s**2+w**2-h3**2)/(2*s*w))
-            t_s = arccos((s**2+h3**2-w**2)/(2*s*h3)) - phi
+            w1 = ((s**2+w**2-h3**2)/(2*s*w))
+            w2 = (s**2+h3**2-w**2)/(2*s*h3)
+            if w1>1 or w1<-1 or w2>1 or w2<-1:
+                self.flag = 1
+            t_w = arccos(w1)
+            t_s = arccos(w2) - phi
             if leg < 2:
                 return t_h, t_s, t_w
             else:
                 return -t_h, t_s, t_w
-        except:
+        except RuntimeError:
             print("Out of bounds.")
             return 0,0,0
         return 0,0,0
@@ -130,7 +141,7 @@ class Quadruped:
         cos(pitch)*cos(roll),0],
         [0,0,0,1]]
 
-    def draw_legs(self, f_c):
+    def draw_legs(self, f_c, d):
         for i in range(0,4):
             pol1=1
             pol2=1
@@ -139,41 +150,65 @@ class Quadruped:
                 pol2 = 0
             xyz = (f_c[i][0],f_c[i][1],f_c[i][2])
             t_h, t_s, t_w = Quadruped.IK(self, i,xyz)
+            if(t_w>3.1415):
+                self.flag = 1
             M1F = dot(Quadruped.translate(self.body[i][0],self.body[i][1],self.body[i][2]),
-            Quadruped.rotate(self.yaw, self.pitch, -t_h))
+            Quadruped.rotate(self.body_yaw, self.body_pitch, -t_h))
             p1 = dot(M1F, Quadruped.translate(0,0,-self.offsets[0]))
             p2 = dot(p1, Quadruped.translate(0,pol1*self.offsets[1],0))
-            M2F = dot(p2, dot(Quadruped.rotate(0,-self.pitch+t_s-pi*pol2,0),
+            M2F = dot(p2, dot(Quadruped.rotate(0,-self.body_pitch+t_s+pi*pol2,0),
             Quadruped.translate(0,0,pol1*self.limb_lengths[0])))
+            p3 = dot(M2F, dot(Quadruped.rotate(0,t_w-pi*pol2,0),
+            Quadruped.translate(0,0,self.limb_lengths[1])))
             leg_pts = array([
 
             [M1F[0][3],M1F[1][3],M1F[2][3]],
             [p1[0][3], p1[1][3], p1[2][3]],
             [p2[0][3], p2[1][3], p2[2][3]],
             [M2F[0][3],M2F[1][3],M2F[2][3]],
-            [f_c[i][0],f_c[i][1],f_c[i][2]]
+            [p3[0][3],p3[1][3],p3[2][3]]
 
             ])
-            self.ax.w.addItem(gl.GLLinePlotItem(pos=leg_pts, color=pg.glColor((4, 100)), width=3, antialias=True))
-            self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=7))
+            if (isnan(M2F[0][3]) and isnan(M2F[1][3]) and isnan(M2F[2][3])):
+                self.flag = 1
+            if d:
+                self.ax.w.addItem(gl.GLLinePlotItem(pos=leg_pts, color=pg.glColor((4, 100)), width=3, antialias=True))
+                self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=7))
 
 
-    def shift_body_rotation(self, yaw, pitch, roll):
+    def shift_body_rotation(self, yaw, pitch, roll, p):
         self.yaw = yaw
         self.pitch = pitch
         self.roll = roll
+        if p:
+            self.body_yaw += 0.06*(self.yaw-self.body_yaw)
+            self.body_pitch += 0.06*(self.pitch-self.body_pitch)
+            self.body_roll += 0.06*(self.roll-self.body_roll)
+        else:
+            self.body_yaw = self.yaw
+            self.body_pitch = self.pitch
+            self.body_roll = self.roll
+
         for i, vector in enumerate(self.body):
             P = dot(Quadruped.translate(0, 0, self.body_reset[i][2]),
-            dot(Quadruped.rotate(self.yaw, self.pitch, self.roll),
+            dot(Quadruped.rotate(self.body_yaw, self.body_pitch, self.body_roll),
             Quadruped.translate(self.body_reset[i][0],self.body_reset[i][1],0)))
             self.body[i] = (P[0][3], P[1][3], P[2][3])
 
-    def shift_body_translation(self, dx, dy, dz):
+    def shift_body_translation(self, dx, dy, dz, p):
         self.del_x = dx
         self.del_y = dy
         self.del_z = dz
+        if p:
+            self.body_x += 0.06*(self.del_x-self.body_x)
+            self.body_y += 0.06*(self.del_y-self.body_y)
+            self.body_z += 0.06*(self.del_z-self.body_z)
+        else:
+            self.body_x = self.del_x
+            self.body_y = self.del_y
+            self.body_z = self.del_z
         for i, vector in enumerate(self.body):
-            P = dot(Quadruped.translate(self.del_x, self.del_y, self.del_z),
+            P = dot(Quadruped.translate(self.body_x, self.body_y, self.body_z),
             Quadruped.translate(self.body[i][0],self.body[i][1],self.body[i][2]))
 
             self.body[i] = (P[0][3], P[1][3], P[2][3])

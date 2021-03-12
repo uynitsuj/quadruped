@@ -15,6 +15,13 @@ class Visualizer(object):
         global x, y, z, yaw, pitch, roll, cl, r
         r = x = y = z = yaw = pitch = roll = cl = 0
         self.robot = Quadruped(ax=self, origin=(0, 0, 100))
+        self.r2 = Quadruped(ax=self, origin=(0, 0, 100))
+        self.px = x
+        self.py = y
+        self.pz = z
+        self.pyaw = yaw
+        self.ppitch = pitch
+        self.proll = roll
         self.traces = dict()
         self.app = QtGui.QApplication(sys.argv)
         self.w = gl.GLViewWidget()
@@ -55,13 +62,32 @@ class Visualizer(object):
             sys.exit(0)
         self.w.clear()
         self.setup()
-        self.robot.shift_body_rotation(yaw, pitch, roll)
-        self.robot.shift_body_translation(x, y, z)
+        pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
+        self.r2.shift_body_rotation(yaw, pitch, roll, 0)
+        self.r2.shift_body_translation(x, y, z, 0)
+        self.r2.draw_legs(pts, 0)
+        if self.r2.flag == 1:
+            x = self.px
+            y = self.py
+            z = self.pz
+            yaw = self.pyaw
+            pitch = self.ppitch
+            roll = self.proll
+            self.r2.flag = 0
+        else:
+            self.robot.shift_body_rotation(yaw, pitch, roll, 1)
+            self.robot.shift_body_translation(x, y, z, 1)
+            self.px = x
+            self.py = y
+            self.pz = z
+            self.pyaw = yaw
+            self.ppitch = pitch
+            self.proll = roll
         #self.robot.reset(r)
         self.robot.draw_body()
-        pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
         self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
-        self.robot.draw_legs(pts)
+        self.robot.draw_legs(pts, 1)
+
 
 
     def animation(self):
@@ -77,7 +103,7 @@ def my_callback(inp):
     pass
 switch = 'x'
 buffer = 0
-inc = 5
+inc = 20
 
 #keyboard keypress event handler
 def on_press(key):
@@ -109,17 +135,17 @@ def on_press(key):
         buffer = -inc
     if k in ['w', 's']:
         if switch == 'x':
-            x += buffer
+            x += buffer*0.5
         if switch == 'y':
-            y += buffer
+            y += buffer*0.5
         if switch == 'z':
-            z += buffer
+            z += buffer*0.5
         if switch == 'a':
-            yaw += buffer*np.pi/180
+            yaw += 0.25*buffer*np.pi/180
         if switch == 'p':
-            pitch += buffer*np.pi/180
+            pitch += 0.25*buffer*np.pi/180
         if switch == 'r':
-            roll += buffer*np.pi/180
+            roll += 0.25*buffer*np.pi/180
 
 if __name__ == '__main__':
     t = 1
