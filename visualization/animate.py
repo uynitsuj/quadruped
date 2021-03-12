@@ -8,12 +8,16 @@ import sys
 from ps4thread import PS4Thread
 from pynput import keyboard
 from IKEngin import Quadruped
+import objgraph
+import gc
+import tracemalloc
+
 
 
 class Visualizer(object):
     def __init__(self):
-        global x, y, z, yaw, pitch, roll, cl, r
-        r = x = y = z = yaw = pitch = roll = cl = 0
+        global x, y, z, yaw, pitch, roll, cl, r, count
+        count = r = x = y = z = yaw = pitch = roll = cl = 0
         self.robot = Quadruped(ax=self, origin=(0, 0, 100))
         self.r2 = Quadruped(ax=self, origin=(0, 0, 100))
         self.px = x
@@ -57,7 +61,9 @@ class Visualizer(object):
             QtGui.QApplication.instance().exec_()
 
     def update(self):
-        global x, y, z, yaw, pitch, roll, r, cl
+        global x, y, z, yaw, pitch, roll, r, cl, count
+        count+=1
+        del self.w.items [:]
         if cl:
             sys.exit(0)
         self.w.clear()
@@ -85,10 +91,18 @@ class Visualizer(object):
             self.proll = roll
         #self.robot.reset(r)
         self.robot.draw_body()
-        self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
+        #self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
         self.robot.draw_legs(pts, 1)
-
-
+        #all_objects = muppy.get_objects()
+        print(count)
+        if count == 1:
+            global snapshot1
+            snapshot1 = tracemalloc.take_snapshot()
+        if count == 2000:
+            snapshot2 = tracemalloc.take_snapshot()
+            top_stats = snapshot2.compare_to(snapshot1, 'lineno')
+            for stat in top_stats[:10]:
+                print(stat)
 
     def animation(self):
         timer = QtCore.QTimer()
@@ -169,6 +183,7 @@ if __name__ == '__main__':
             t = 0
         else:
             pass
+    tracemalloc.start()
     v = Visualizer()
     v.animation()
     cthread.join()

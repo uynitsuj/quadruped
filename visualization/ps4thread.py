@@ -52,3 +52,4 @@ class PS4Thread(threading.Thread):
             if (button_id == 1 and button_type == 1 and value == 1):
                 cl = 1
             self.input_cbk((yaw, pitch, roll, x, y, z, r, cl))
+            file.flush()
