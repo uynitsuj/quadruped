@@ -69,48 +69,6 @@ class Quadruped:
                       ]
 
 
-    def IK(self, leg, xyz_wf):
-        try:
-            x = -self.body[leg][0]+xyz_wf[0]
-            if leg < 2:
-                y = xyz_wf[1]-self.body[leg][1]
-            else:
-                y = self.body[leg][1]-xyz_wf[1]
-            z = xyz_wf[2]-self.body[leg][2]
-
-            off0 = self.offsets[0]
-            off1 = self.offsets[1]
-            s = self.limb_lengths[0]
-            w = self.limb_lengths[1]
-            h1 = sqrt(off0**2+off1**2)
-            h2 = sqrt(z**2+y**2)
-            a0 = arctan(y/z)
-            a1 = arctan(off1/off0)
-            a2 = arctan(off0/off1)
-            a3 = arcsin(h1*sin(a2+pi/2)/h2)
-            a4 = pi/2-(a3+a2)
-            a5 = a1-a4
-            r0=h1*sin(a4)/sin(a3)
-            t_h = a0-a5
-
-            h3 = sqrt(r0**2+x**2)
-            phi = arcsin(x / h3)
-            w1 = ((s**2+w**2-h3**2)/(2*s*w))
-            w2 = (s**2+h3**2-w**2)/(2*s*h3)
-            if w1>1 or w1<-1 or w2>1 or w2<-1:
-                self.flag = 1
-            t_w = arccos(w1)
-            t_s = arccos(w2) - phi
-            if leg < 2:
-                return t_h, t_s, t_w
-            else:
-                return -t_h, t_s, t_w
-        except RuntimeError:
-            print("Out of bounds.")
-            return 0,0,0
-        return 0,0,0
-
-
     def draw_body(self):
         x_data = [vector[0] for vector in self.body]
         y_data = [vector[1] for vector in self.body]
@@ -155,10 +113,9 @@ class Quadruped:
             xyz = dot(Quadruped.translate(f_c[i][0],f_c[i][1],f_c[i][2]),
             Quadruped.rotate(self.body_yaw, self.body_pitch, self.body_roll))
             #t_h, t_s, t_w = Quadruped.IK(self, i,xyz)
-            T = dot(xyz, linalg.inv(F1))
+            T = dot(Quadruped.rotate(-self.body_yaw,0,0), dot(xyz, linalg.inv(F1)))
             if i < 2:
                 y = T[1][3]
-                #print(T, "\n")
             else:
                 y = -T[1][3]
             z = T[2][3]
@@ -186,7 +143,7 @@ class Quadruped:
 
             xyz2 = dot(Quadruped.translate(f_c[i][0],f_c[i][1],f_c[i][2]),
             Quadruped.rotate(self.body_yaw, self.body_pitch, t_h))
-            T2 = dot(xyz2, linalg.inv(p2))
+            T2 = dot(Quadruped.rotate(-self.body_yaw,0,0), dot(xyz2, linalg.inv(p2)))
             x = T2[0][3]
             h3 = sqrt(r0**2+x**2)
             phi = arcsin(x / h3)
@@ -219,7 +176,10 @@ class Quadruped:
                 #self.draw_frame(M1F)
                 #self.draw_frame(xyz)
                 #self.draw_frame(F1)
-                self.draw_frame(T)
+                #if i == 1:
+                    #self.draw_frame(p2)
+                    #self.draw_frame(xyz2)
+                    #self.draw_frame(T2)
                 #self.draw_frame(xyz2)
                 self.ax.w.addItem(gl.GLLinePlotItem(pos=leg_pts, color=pg.glColor((4, 100)), width=3, antialias=True))
                 #self.ax.w.addItem(gl.GLScatterPlotItem(pos=leg_pts, color=pg.glColor((4, 5)), size=7))
