@@ -203,9 +203,9 @@ class Quadruped:
         self.pitch = pitch
         self.roll = roll
         if p:
-            self.body_yaw += 0.06*(self.yaw-self.body_yaw)
-            self.body_pitch += 0.06*(self.pitch-self.body_pitch)
-            self.body_roll += 0.06*(self.roll-self.body_roll)
+            self.body_yaw += 0.02*(self.yaw-self.body_yaw)
+            self.body_pitch += 0.03*(self.pitch-self.body_pitch)
+            self.body_roll += 0.02*(self.roll-self.body_roll)
         else:
             self.body_yaw = self.yaw
             self.body_pitch = self.pitch
@@ -222,9 +222,9 @@ class Quadruped:
         self.del_y = dy
         self.del_z = dz
         if p:
-            self.body_x += 0.06*(self.del_x-self.body_x)
-            self.body_y += 0.06*(self.del_y-self.body_y)
-            self.body_z += 0.06*(self.del_z-self.body_z)
+            self.body_x += 0.02*(self.del_x-self.body_x)
+            self.body_y += 0.02*(self.del_y-self.body_y)
+            self.body_z += 0.02*(self.del_z-self.body_z)
         else:
             self.body_x = self.del_x
             self.body_y = self.del_y
