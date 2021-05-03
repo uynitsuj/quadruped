@@ -68,7 +68,14 @@ class Quadruped:
 
                       ]
 
+        self.joint_angles = [
+                        #h s w
+                        [0,0,0], #BR
+                        [0,0,0], #FR
+                        [0,0,0], #FL
+                        [0,0,0]  #BL
 
+                      ]
     def draw_body(self):
         x_data = [vector[0] for vector in self.body]
         y_data = [vector[1] for vector in self.body]
@@ -153,6 +160,10 @@ class Quadruped:
                 self.flag = 1
             t_w = arccos(w1)
             t_s = arccos(w2) - phi
+            #print(self.joint_angles[i][0])
+            self.joint_angles[i][0] = t_h
+            self.joint_angles[i][1] = t_s
+            self.joint_angles[i][2] = t_w
 
             if(t_w>3.1415):
                 self.flag = 1
