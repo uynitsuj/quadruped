@@ -161,7 +161,7 @@ class Quadruped:
             t_w = arccos(w1)
             t_s = arccos(w2) - phi
             #print(self.joint_angles[i][0])
-            self.joint_angles[i][0] = t_h
+            self.joint_angles[i][0] = t_h - self.body_roll
             self.joint_angles[i][1] = t_s
             self.joint_angles[i][2] = t_w
 
