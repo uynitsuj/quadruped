@@ -9,7 +9,7 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 **Control**: If I spend enough time with the hobby servos and like them enough, I might expand the control system to include force sensitive feet or implement force feedback on the servos with some hall effect sensors or something similar, since servos don't have that capability on their own.
 I'll start out with a Raspberry Pi for pose computation and a Teensy 4.0 to handle PWM to the servos. In the far future I might scale to a Nvidia Jetson Nano for more complex gait/motion/path planning projects.
 
-Demos
+**Demos**
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/QIKstress.gif?raw=true" height="100%" width="100%">
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/legdemo.gif?raw=true" height="60%" width="60%">
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/ezgif-3-fced31d97cb5.gif?raw=true" height="60%" width="60%">
