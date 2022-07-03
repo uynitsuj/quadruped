@@ -12,3 +12,6 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/QIKstress.gif?raw=true" height="100%" width="100%">
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/legdemo.gif?raw=true" height="60%" width="60%">
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/ezgif-3-fced31d97cb5.gif?raw=true" height="60%" width="60%">
+
+
+
