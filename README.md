@@ -18,6 +18,7 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 ### To-Do List
 
 - [ ] *Hardware & Software* // Untethered operation with joystick pose control
+- [ ] *Hardware* // Research current sense circuit for contact detection
 - [ ] *Software* // Change power-on servo initialization angles
 - [ ] *Software* // Physics Simulation
-- [ ] *Software* // Walking!
+- [ ] *Software* // Walking
