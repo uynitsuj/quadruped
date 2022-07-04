@@ -20,6 +20,7 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 - [ ] *Hardware & Software* // Untethered operation with joystick pose control
 - [ ] *Hardware* // Research current sense circuit for contact detection
 - [ ] *Software* // Rewrite controller code in C++
+- [ ] *Software* // Basic gait generation & walking
 - [ ] *Software* // Change power-on servo initialization behavior
 - [ ] *Software* // Physics Simulation
 - [ ] *Software* // Gait generation & walking
