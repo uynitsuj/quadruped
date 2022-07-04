@@ -22,4 +22,4 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 - [ ] *Software* // Rewrite controller code in C++
 - [ ] *Software* // Change power-on servo initialization angles
 - [ ] *Software* // Physics Simulation
-- [ ] *Software* // Walking
+- [ ] *Software* // Gait generation & walking
