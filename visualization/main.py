@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 import threading
-from IKEngin import Quadruped
+from IKEngin2 import Quadruped
 from ps4thread import PS4Thread
 import serial
 import time
@@ -40,7 +40,6 @@ class QThread(threading.Thread):
             pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
             self.r2.shift_body_rotation(yaw, pitch, roll, 0)
             self.r2.shift_body_translation(x, y, z, 0)
-            self.r2.draw_legs(pts, 0)
             if self.r2.flag == 1:
                 x = self.px
                 y = self.py
@@ -88,6 +87,7 @@ class QThread(threading.Thread):
             #serialcomm.write((FRHM + '\n').encode())
             #FRSM = '#FRSM' + str(-self.r1.joint_angles[1][1]*210/np.pi+215)
             #serialcomm.write((FRSM + '\n').encode())
+            print(self.r1.joint_angles[1][2])
             FRWM = '#FRWM' + str(self.r1.joint_angles[1][2]*198/np.pi+32)
             print(FRWM)
             serialcomm.write((FRWM + '\n').encode())
