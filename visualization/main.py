@@ -20,8 +20,8 @@ class QThread(threading.Thread):
         super(QThread, self).__init__(name=name)
         self.daemon = True
         time.sleep(2)
-        self.r1 = Quadruped(ax=self, origin=(0, 0, 100))
-        self.r2 = Quadruped(ax=self, origin=(0, 0, 100))
+        self.r1 = Quadruped(ax=self, origin=(25, 0, 70))
+        self.r2 = Quadruped(ax=self, origin=(25, 0, 70))
         self.px = x
         self.py = y
         self.pz = z
@@ -64,7 +64,7 @@ class QThread(threading.Thread):
             self.r1.draw_body()
             #self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
             self.r1.draw_legs(pts, 1)
-            """
+            
             BRHM = '#BRHM' + str(-self.r1.joint_angles[0][0]*250/np.pi + 85)
             serialcomm.write((BRHM + '\n').encode())
             BRSM = '#BRSM' + str(-self.r1.joint_angles[0][1]*210/np.pi+197)
@@ -85,14 +85,12 @@ class QThread(threading.Thread):
             serialcomm.write((FLSM + '\n').encode())
             FLWM = '#FLWM' + str(int(255-(self.r1.joint_angles[2][2]*198/np.pi+20)))
             serialcomm.write((FLWM + '\n').encode())
-            """
-            #FRHM = '#FRHM' + str(-self.r1.joint_angles[1][0]*250/np.pi + 85)
-            #serialcomm.write((FRHM + '\n').encode())
-            #FRSM = '#FRSM' + str(-self.r1.joint_angles[1][1]*210/np.pi+215)
-            #serialcomm.write((FRSM + '\n').encode())
-            #print(self.r1.joint_angles[1][2])
+            
+            FRHM = '#FRHM' + str(-self.r1.joint_angles[1][0]*250/np.pi + 85)
+            serialcomm.write((FRHM + '\n').encode())
+            FRSM = '#FRSM' + str(-self.r1.joint_angles[1][1]*210/np.pi+215)
+            serialcomm.write((FRSM + '\n').encode())
             FRWM = '#FRWM' + str(self.r1.joint_angles[1][2]*198/np.pi+32)
-            #print(FRWM)
             serialcomm.write((FRWM + '\n').encode())
 
 def ctlr_callback(inp):
