@@ -5,12 +5,7 @@ from IKEngin import Quadruped
 import serial
 import time
 
-serialcomm = serial.Serial('/dev/ttyACM0', 115200, timeout = 0)
-serialcomm.bytesize = serial.EIGHTBITS
-serialcomm.parity = serial.PARITY_NONE
-serialcomm.stopbits = serial.STOPBITS_ONE
-serialcomm.timeout = 2
-time.sleep(2)
+
 
 
 #thread callback function
