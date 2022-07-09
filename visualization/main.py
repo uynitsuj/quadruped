@@ -20,8 +20,8 @@ class QThread(threading.Thread):
         super(QThread, self).__init__(name=name)
         self.daemon = True
         time.sleep(2)
-        self.r1 = Quadruped(ax=self, origin=(25, 0, 70))
-        self.r2 = Quadruped(ax=self, origin=(25, 0, 70))
+        self.r1 = Quadruped(ax=self, origin=(30, 0, 60))
+        self.r2 = Quadruped(ax=self, origin=(30, 0, 60))
         self.px = x
         self.py = y
         self.pz = z

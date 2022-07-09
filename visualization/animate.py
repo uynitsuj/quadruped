@@ -13,8 +13,8 @@ class Visualizer(object):
     def __init__(self):
         global x, y, z, yaw, pitch, roll, cl, r, count
         count = r = x = y = z = yaw = pitch = roll = cl = 0
-        self.robot = Quadruped(ax=self, origin=(25, 0, 70))
-        self.r2 = Quadruped(ax=self, origin=(25, 0, 70))
+        self.robot = Quadruped(ax=self, origin=(30, 0, 60))
+        self.r2 = Quadruped(ax=self, origin=(30, 0, 60))
         self.px = x
         self.py = y
         self.pz = z
