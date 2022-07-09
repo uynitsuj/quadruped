@@ -89,6 +89,7 @@ class QThread(threading.Thread):
             #FRSM = '#FRSM' + str(-self.r1.joint_angles[1][1]*210/np.pi+215)
             #serialcomm.write((FRSM + '\n').encode())
             FRWM = '#FRWM' + str(self.r1.joint_angles[1][2]*198/np.pi+32)
+            print(FRWM)
             serialcomm.write((FRWM + '\n').encode())
 
 def ctlr_callback(inp):
