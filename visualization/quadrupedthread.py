@@ -51,6 +51,7 @@ class QThread(threading.Thread):
                 self.pyaw = yaw
                 self.ppitch = pitch
                 self.proll = roll
+            print(roll, " ", pitch, " ", yaw, " ", x, " ", y, " ", z)
             #self.robot.reset(r)
             #self.robot.draw_body()
             #self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))

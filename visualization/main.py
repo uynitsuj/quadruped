@@ -40,6 +40,7 @@ class QThread(threading.Thread):
             pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
             self.r2.shift_body_rotation(yaw, pitch, roll, 0)
             self.r2.shift_body_translation(x, y, z, 0)
+            self.r2.draw_legs(pts, 0)
             if self.r2.flag == 1:
                 x = self.px
                 y = self.py
@@ -57,10 +58,12 @@ class QThread(threading.Thread):
                 self.pyaw = yaw
                 self.ppitch = pitch
                 self.proll = roll
+            #self.r1.draw_legs()
+            #print(roll, " ", pitch, " ", yaw, " ", x, " ", y, " ", z)
             #self.r1.reset(r)
-            #self.r1.draw_body()
+            self.r1.draw_body()
             #self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
-            #self.r1.draw_legs(pts, 1)
+            self.r1.draw_legs(pts, 1)
             """
             BRHM = '#BRHM' + str(-self.r1.joint_angles[0][0]*250/np.pi + 85)
             serialcomm.write((BRHM + '\n').encode())
@@ -87,9 +90,9 @@ class QThread(threading.Thread):
             #serialcomm.write((FRHM + '\n').encode())
             #FRSM = '#FRSM' + str(-self.r1.joint_angles[1][1]*210/np.pi+215)
             #serialcomm.write((FRSM + '\n').encode())
-            print(self.r1.joint_angles[1][2])
+            #print(self.r1.joint_angles[1][2])
             FRWM = '#FRWM' + str(self.r1.joint_angles[1][2]*198/np.pi+32)
-            print(FRWM)
+            #print(FRWM)
             serialcomm.write((FRWM + '\n').encode())
 
 def ctlr_callback(inp):
