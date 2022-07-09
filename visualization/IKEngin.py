@@ -1,7 +1,5 @@
 from numpy import *  # imports all function so we don't have to use np.function()
 import math
-import pyqtgraph.opengl as gl
-import pyqtgraph as pg
 # class defines robot joint vertices and stores & plots vertex definition
 # in cartesian space relative to the origin of the base frame
 # those vertices get plotted within pyqtgraph's 3d openGL visualization plotter.
