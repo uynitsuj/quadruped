@@ -22,7 +22,7 @@ class PS4Thread(threading.Thread):
             self.input_cbk((yaw, pitch, roll, x, y, z, r, cl))
             exit(1)
         print("Controls: \nL Joystick X: yaw\nL Joystick Y: pitch\nR Joystick X: translate body left/right\nR Joystick Y: translate body forward/backward\nL Bumper: roll body\nR Bumper: roll body\nDPad up: translate body up\nDPad down: translate body down\nCircle: close visualization")
-        print("Use Mouse+Scroll Wheel+Arrow Keys to move camera view")
+        #print("Use Mouse+Scroll Wheel+Arrow Keys to move camera view")
         while True:
             #Joystick event handler
             event = file.read(struct.calcsize("3Bh2b"))

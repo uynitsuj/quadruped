@@ -37,7 +37,6 @@ class QThread(threading.Thread):
             count+=1
             if cl:
                 sys.exit(0)
-            self.setup()
             pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
             self.r2.shift_body_rotation(yaw, pitch, roll, 0)
             self.r2.shift_body_translation(x, y, z, 0)
