@@ -3,7 +3,6 @@ import sys
 import threading
 from IKEngin import Quadruped
 from ps4thread import PS4Thread
-from quadrupedthread import QThread
 import serial
 import time
 
@@ -36,10 +35,8 @@ class QThread(threading.Thread):
         while True:
             global x, y, z, yaw, pitch, roll, r, cl, count
             count+=1
-            del self.w.items [:]
             if cl:
                 sys.exit(0)
-            self.w.clear()
             self.setup()
             pts = np.array([[-127.5, -110,0], [127.5, -110,0],[127.5, 110,0],[-127.5, 110,0]])
             self.r2.shift_body_rotation(yaw, pitch, roll, 0)
