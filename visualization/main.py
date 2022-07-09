@@ -15,12 +15,20 @@ serialcomm.timeout = 2
 
 class QThread(threading.Thread):
     def __init__(self, input_cbk = None, name='quadruped-thread'):
+        global x, y, z, yaw, pitch, roll, cl, r, count
+        count = r = x = y = z = yaw = pitch = roll = cl = 0
         self.input_cbk = input_cbk
         super(QThread, self).__init__(name=name)
         self.daemon = True
         time.sleep(2)
         self.r1 = Quadruped(ax=self, origin=(0, 0, 100))
         self.r2 = Quadruped(ax=self, origin=(0, 0, 100))
+        self.px = x
+        self.py = y
+        self.pz = z
+        self.pyaw = yaw
+        self.ppitch = pitch
+        self.proll = roll
         self.start()
 
     def run(self):

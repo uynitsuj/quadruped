@@ -11,17 +11,17 @@ class QThread(threading.Thread):
         self.input_cbk = input_cbk
         super(QThread, self).__init__(name=name)
         self.daemon = True
-        self.serialcomm = serial.Serial('/dev/ttyACM0', 115200, timeout = 0)
-        self.serialcomm.bytesize = serial.EIGHTBITS
-        self.serialcomm.parity = serial.PARITY_NONE
-        self.serialcomm.stopbits = serial.STOPBITS_ONE
-        self.serialcomm.timeout = 2
         time.sleep(2)
         self.r1 = Quadruped(ax=self, origin=(0, 0, 100))
         self.r2 = Quadruped(ax=self, origin=(0, 0, 100))
         self.start()
 
     def run(self):
+        serialcomm = serial.Serial('/dev/ttyACM0', 115200, timeout = 0)
+        serialcomm.bytesize = serial.EIGHTBITS
+        serialcomm.parity = serial.PARITY_NONE
+        serialcomm.stopbits = serial.STOPBITS_ONE
+        serialcomm.timeout = 2
         while True:
             global x, y, z, yaw, pitch, roll, r, cl, count
             count+=1
@@ -43,8 +43,8 @@ class QThread(threading.Thread):
                 roll = self.proll
                 self.r2.flag = 0
             else:
-                self.robot.shift_body_rotation(yaw, pitch, roll, 1)
-                self.robot.shift_body_translation(x, y, z, 1)
+                self.r1.shift_body_rotation(yaw, pitch, roll, 1)
+                self.r1.shift_body_translation(x, y, z, 1)
                 self.px = x
                 self.py = y
                 self.pz = z
@@ -52,35 +52,35 @@ class QThread(threading.Thread):
                 self.ppitch = pitch
                 self.proll = roll
             #self.robot.reset(r)
-            self.robot.draw_body()
+            #self.robot.draw_body()
             #self.w.addItem(gl.GLScatterPlotItem(pos=pts, color=pg.glColor((4, 5)), size=7))
-            self.robot.draw_legs(pts, 1)
+            #self.robot.draw_legs(pts, 1)
             BRHM = '#BRHM' + str(-self.robot.joint_angles[0][0]*250/np.pi + 85)
-            self.serialcomm.write((BRHM + '\n').encode())
+            serialcomm.write((BRHM + '\n').encode())
             BRSM = '#BRSM' + str(-self.robot.joint_angles[0][1]*210/np.pi+197)
-            self.serialcomm.write((BRSM + '\n').encode())
+            serialcomm.write((BRSM + '\n').encode())
             BRWM = '#BRWM' + str(self.robot.joint_angles[0][2]*198/np.pi+17)
-            self.serialcomm.write((BRWM + '\n').encode())
+            serialcomm.write((BRWM + '\n').encode())
 
             BLHM = '#BLHM' + str(int(255-(self.robot.joint_angles[3][0]*250/np.pi + 80)))
-            self.serialcomm.write((BLHM + '\n').encode())
+            serialcomm.write((BLHM + '\n').encode())
             BLSM = '#BLSM' + str(int(255-(-self.robot.joint_angles[3][1]*210/np.pi+190)))
-            self.serialcomm.write((BLSM + '\n').encode())
+            serialcomm.write((BLSM + '\n').encode())
             BLWM = '#BLWM' + str(int(255-(self.robot.joint_angles[3][2]*198/np.pi+30)))
-            self.serialcomm.write((BLWM + '\n').encode())
+            serialcomm.write((BLWM + '\n').encode())
 
             FLHM = '#FLHM' + str(int(255-(self.robot.joint_angles[2][0]*250/np.pi + 80)))
-            self.serialcomm.write((FLHM + '\n').encode())
+            serialcomm.write((FLHM + '\n').encode())
             FLSM = '#FLSM' + str(int(255-(-self.robot.joint_angles[2][1]*210/np.pi+200)))
-            self.serialcomm.write((FLSM + '\n').encode())
+            serialcomm.write((FLSM + '\n').encode())
             FLWM = '#FLWM' + str(int(255-(self.robot.joint_angles[2][2]*198/np.pi+20)))
-            self.serialcomm.write((FLWM + '\n').encode())
+            serialcomm.write((FLWM + '\n').encode())
 
             FRHM = '#FRHM' + str(-self.robot.joint_angles[1][0]*250/np.pi + 85)
-            self.serialcomm.write((FRHM + '\n').encode())
+            serialcomm.write((FRHM + '\n').encode())
             FRSM = '#FRSM' + str(-self.robot.joint_angles[1][1]*210/np.pi+215)
-            self.serialcomm.write((FRSM + '\n').encode())
+            serialcomm.write((FRSM + '\n').encode())
             FRWM = '#FRWM' + str(self.robot.joint_angles[1][2]*198/np.pi+32)
-            self.serialcomm.write((FRWM + '\n').encode())
+            serialcomm.write((FRWM + '\n').encode())
 
 
