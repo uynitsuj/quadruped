@@ -13,15 +13,3 @@ Eventually, I hope to scale it up and move to hobby brushless DC motors. Or in t
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/legdemo.gif?raw=true" height="60%" width="60%">
 <img src="https://github.com/uynitsuj/quadruped/blob/main/img/ezgif-3-fced31d97cb5.gif?raw=true" height="60%" width="60%">
 
-
-
-### To-Do List
-- [ ] *Hardware* // Find out how to SSH a headless RPi4 over ethernet and connect to Wifi
-- [ ] *Hardware* // Rectify RPi undervolting issue
-- [ ] *Hardware & Software* // Untethered operation with joystick pose control
-- [ ] *Software* // Rewrite current python visualization + controller code in C++
-- [ ] *Software* // Basic gait generation & walking
-- [ ] *Hardware* // Research current sense circuit for contact detection
-- [ ] *Software* // Change power-on servo initialization behavior
-- [ ] *Software* // Physics Simulation - ROS & Gazebo
-- [ ] *Software* // Gait generation & walking
